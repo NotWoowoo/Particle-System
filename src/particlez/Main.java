@@ -7,6 +7,7 @@ import java.awt.RenderingHints;
 
 import lawt.engine.Util;
 import lawt.engine.Window;
+import lawt.graphics.geometry.Text;
 
 public class Main {
 	
@@ -20,23 +21,28 @@ public class Main {
 			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			
 			g.setColor(Color.DARK_GRAY.darker().darker().darker().darker());
+			//g.setColor(new Color(10, 10, 10, 10));
 			g.fillRect(0, 0, w.getWidth(), w.getHeight());
 		};
 		w.setDrawCall(background);
 		
-		generateParticles(300);
+		generateParticles(200);
+		Text count = new Text(20, 20, Color.WHITE);
 		
 		while(true){
-			if(w.mouseInWindow){
-				Particle.mouseX = w.getMouseX();
-				Particle.mouseY = w.getMouseY();
+			Particle.mouseX = w.getMouseX();
+			Particle.mouseY = w.getMouseY();
 				
-				if(w.mouseButtonsDown.contains(2) && w.step % 3 == 0) {
+			if(w.mouseScrollTotal != 0) {
+				for(int i = 0; i > w.mouseScrollTotal; --i) {
 					double r = 3;
 					r = Util.random(-r, r);
 					new Particle(Particle.mouseX + r, Particle.mouseY + r, Color.WHITE);
 				}
+				w.mouseScrollTotal = 0;
 			}
+			
+			count.setString("Particles: " + Particle.numParticles());
 			
 			w.executeFrame();
 		}

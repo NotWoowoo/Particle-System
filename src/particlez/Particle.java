@@ -10,8 +10,13 @@ import lawt.engine.Util;
 
 public class Particle extends Entity{
 	
+	@SuppressWarnings("unused")
 	private double size = 7, spd = 0.1, v = Util.random(1);
 	private static List<Particle> particles = new ArrayList<Particle>();
+	
+	public static int numParticles() {
+		return particles.size();
+	}
 	
 	public static double mouseX, mouseY;
 	
@@ -28,7 +33,8 @@ public class Particle extends Entity{
 
 	@Override
 	public void update() {
-		for(Particle p : particles){
+		for(int i = 0; i < particles.size(); ++i){
+			Particle p = particles.get(i);
 			if(p != this){
 				double dist = Util.dist(x, y, p.x, p.y);
 				double theta = Util.angle(x, y, p.x, p.y);
